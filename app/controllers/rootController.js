@@ -32,6 +32,11 @@ exports.post = (req,res)=>{
         }
 }
 
+// Handler for the /about endpoint
+exports.getAbout = (req, res) => {
+    res.sendFile(join(__dirname, '../views/about.html')); // Ensure path is correct
+};
+
 //to generate unique rooms
 function randomPath(){
     let randomPath = Math.random().toString(36).substr(2,6); //genarating a random path nunmber with 6 charecter

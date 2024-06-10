@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  ludugame1:
+    build:
+      context: ./app
+    networks:
+      - app-network
+
+  ludugame2:
+    build:
+      context: ./app
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./app/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - ludugame1
+      - ludugame2
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+#This custom network allows the containers to communicate with each other 
+#using their service names as hostnames.
+#All the services (ludugame1, ludugame2, and nginx) are connected to this network.
+#The bridge driver is the default network driver for Docker. 
+#It provides network isolation between containers by creating a virtual subnet and routing layer.
+#Containers connected to the same bridge network can communicate with each other, while those not connected to the network cannot.
